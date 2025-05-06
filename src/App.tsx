@@ -1,10 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast'; // Import Toaster
+import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import VaultPage from './pages/VaultPage';
-// --- Import Header ---
+import AboutPage from './pages/AboutPage';
 import Header from './components/Header';
-// --- End Import ---
 
 function App() {
   return (
@@ -39,6 +38,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/vault" element={<VaultPage />} />
+            <Route path="/about" element={<AboutPage />} /> {/* <-- Add AboutPage Route */}
             {/* <Route path="/prompt/:id" element={<PromptDetailPage />} /> */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
@@ -54,10 +54,14 @@ function App() {
   );
 }
 
-// Optional: Simple 404 component
+// Inline NotFoundPage component
 function NotFoundPage() {
-  // Use muted foreground for 404 text
-  return <div className="text-center text-muted-foreground"><h2>404 - Page Not Found</h2></div>;
+  return (
+    <div className="text-center py-10">
+      <h2 className="text-3xl font-semibold text-destructive mb-2">404</h2>
+      <p className="text-muted-foreground">Sorry, the page you are looking for does not exist.</p>
+    </div>
+  );
 }
 
 export default App;

@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react'; // Import useEffect and useRef
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useThemeContext } from '../hooks/useThemeContext';
 import { Button } from './common/Button';
-// --- Import Icons ---
 import {
   BsSun,
   BsMoon,
@@ -11,19 +10,16 @@ import {
   BsX,
   BsHouseDoor,
   BsSafe,
+  BsInfoCircle, // <-- Import Info icon
 } from 'react-icons/bs';
-// --- End Import ---
 
 function Header() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useThemeContext();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // --- Refs for outside click detection ---
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hamburgerButtonRef = useRef<HTMLButtonElement>(null);
-  // --- End Refs ---
 
   const getLinkClass = (path: string, isMobile: boolean = false) => {
     const baseClass = `transition-colors flex items-center gap-2 ${isMobile ? 'block py-2 px-3 rounded w-full' : ''}`;
@@ -40,10 +36,8 @@ function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  // --- Effect for handling clicks outside ---
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the click is outside the menu AND outside the button
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node) &&
@@ -53,21 +47,15 @@ function Header() {
         closeMobileMenu();
       }
     };
-
-    // Add listener only when the menu is open
     if (isMobileMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
-      // Remove listener if menu is closed (optional but good practice)
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
-    // Cleanup function to remove listener on unmount or when menu closes
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMobileMenuOpen]); // Re-run effect when isMobileMenuOpen changes
-  // --- End Effect ---
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="relative mb-8 flex flex-wrap justify-between items-center gap-4 border-b pb-4">
@@ -92,6 +80,12 @@ function Header() {
             <BsSafe className="h-5 w-5" />
             <span>My Vault</span>
           </Link>
+          {/* --- Add About Link (Desktop) --- */}
+          <Link to="/about" className={getLinkClass('/about')}>
+            <BsInfoCircle className="h-5 w-5" />
+            <span>About</span>
+          </Link>
+          {/* --- End Add --- */}
         </nav>
         <Button
           variant="ghost"
@@ -136,6 +130,12 @@ function Header() {
               <BsSafe className="h-5 w-5" />
               <span>My Vault</span>
             </Link>
+            {/* --- Add About Link (Mobile) --- */}
+            <Link to="/about" className={getLinkClass('/about', true)} onClick={closeMobileMenu}>
+              <BsInfoCircle className="h-5 w-5" />
+              <span>About</span>
+            </Link>
+            {/* --- End Add --- */}
             <div className="pt-2 mt-2 border-t">
               <Button
                 variant="ghost"
