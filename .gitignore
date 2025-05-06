@@ -1,0 +1,50 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Build output
+dist/
+dist-ssr/
+build/
+out/
+
+# Vite specific cache
+.vite/
+
+# Testing artifacts
+coverage/
+*.lcov
+
+# Environment variables
+.env*
+!.env.example
+!.env.development
+!.env.production
+# Add !.env.<mode> if you have specific non-secret env files you want to commit
+
+# Temporary files & OS generated files
+*.local
+.DS_Store
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
