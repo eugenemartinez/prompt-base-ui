@@ -585,9 +585,16 @@ export async function fetchTags(): Promise<string[]> {
 async function handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
         // Try to parse JSON error, fallback to text
-        const errorData = await response.json().catch(() => ({ message: response.statusText }));
-        // Use message from parsed error or construct one
-        const errorMessage = errorData?.message || errorData?.detail || `HTTP error! status: ${response.status}`;
+        const errorData = await response.json().catch(() => ({ message: response.statusText, detail: response.statusText }));
+        
+        let errorMessage = errorData?.detail || errorData?.message || `HTTP error! status: ${response.status}`;
+
+        // --- ADD SPECIFIC 429 HANDLING ---
+        if (response.status === 429) {
+            errorMessage = errorData?.detail || 'You have made too many requests. Please try again later.';
+        }
+        // --- END SPECIFIC 429 HANDLING ---
+
         console.error(`API Error ${response.status}:`, errorData);
         throw new Error(errorMessage);
     }
